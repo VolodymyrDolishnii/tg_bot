@@ -74,6 +74,9 @@ bot.command("reply", async (ctx) => {
   }
 });
 
+bot.on("message", async (ctx) => {
+  console.log('chat id', ctx.chat.id);
+});
 
 // --- Webhook for CryptoCloud ---
 app.post("/webhook", async (req, res) => {
@@ -83,9 +86,14 @@ app.post("/webhook", async (req, res) => {
   if (!userId) return res.status(400).send("Unknown order");
 
   if (status === "success") {
+    // const invite = await bot.telegram.createChatInviteLink(process.env.CHANNEL_CHAT_ID, {
+    //   member_limit: 1,
+    //   // expire_date: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 365 // 1 year (optional)
+    // });
     await bot.telegram.sendMessage(
       userId,
-      "✅ Payment successful! Here is your access: https://google.com"
+      // `✅ Payment successful! Here is your access: ${invite.invite_link}`
+      `✅ Payment successful! Here is your access: https://google.com`
     );
     await updateOrder(order_id, true);
   } else if (status === "expired" || status === "cancel") {
