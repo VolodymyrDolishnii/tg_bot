@@ -87,8 +87,10 @@ app.post("/webhook", async (req, res) => {
       userId,
       "✅ Payment successful! Here is your access: https://google.com"
     );
+    await updateOrder(order_id, true);
   } else if (status === "expired" || status === "cancel") {
     await bot.telegram.sendMessage(userId, "❌ Payment failed or canceled.");
+    await updateOrder(order_id, false);
   } else {
     await bot.telegram.sendMessage(userId, "⏳ Waiting for payment...");
   }

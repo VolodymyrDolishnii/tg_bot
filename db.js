@@ -23,4 +23,9 @@ async function getUserId(orderId) {
   return order?.userId;
 }
 
-module.exports = { saveOrder, getUserId };
+async function updateOrder(orderId, isPaid = false) {
+  const db = await connect();
+  await db.collection("orders").updateOne({ orderId }, { $set: { isPaid } });
+}
+
+module.exports = { saveOrder, getUserId, updateOrder };
