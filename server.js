@@ -92,10 +92,10 @@ app.post('/webhook', async (req, res) => {
   res.send('ok');
 });
 
-// // --- Telegram webhook setup ---
-// const URL = process.env.RENDER_EXTERNAL_URL || `https://${process.env.RENDER_SERVICE_NAME}.onrender.com`;
-// bot.telegram.setWebhook(`${URL}/bot${process.env.BOT_TOKEN}`);
-// app.use(bot.webhookCallback(`/bot${process.env.BOT_TOKEN}`));
+// --- Telegram webhook setup ---
+const URL = process.env.RENDER_EXTERNAL_URL || `https://${process.env.RENDER_SERVICE_NAME}.onrender.com`;
+bot.telegram.setWebhook(`${URL}/bot${process.env.BOT_TOKEN}`);
+app.use(bot.webhookCallback(`/bot${process.env.BOT_TOKEN}`));
 
 // --- Start server ---
 const PORT = process.env.PORT || 3000;
