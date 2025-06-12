@@ -2,8 +2,6 @@ const axios = require("axios");
 require("dotenv").config();
 
 async function createInvoice(userId, tariffName, amount) {
-  console.log('CC_SHOP_ID:', process.env.CC_SHOP_ID);
-  console.log('CC_API_KEY:', process.env.CC_API_KEY);
   const orderId = `order_${userId}_${Date.now()}`;
 
   const response = await axios.post(

@@ -5,16 +5,16 @@ const { saveOrder } = require('./db');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
-// Команда /start
+// Command /start
 bot.start((ctx) => {
-  ctx.reply('Оберіть тариф:', Markup.inlineKeyboard([
+  ctx.reply('Choose a plan:', Markup.inlineKeyboard([
     [Markup.button.callback('Starter ($5)', 'pay_starter')],
     [Markup.button.callback('Base ($10)', 'pay_base')],
     [Markup.button.callback('Full Access ($25)', 'pay_full')],
   ]));
 });
 
-// Обробка натискань
+// Handle clicks
 bot.action(/^pay_/, async (ctx) => {
   const userId = ctx.from.id;
   const mapping = {
@@ -28,11 +28,11 @@ bot.action(/^pay_/, async (ctx) => {
 
   await saveOrder(orderId, userId);
 
-  await ctx.reply(`🔗 Ось посилання для оплати тарифу ${name}:`, Markup.inlineKeyboard([
-    [Markup.button.url('Перейти до оплати', url)],
+  await ctx.reply(`🔗 Here is the link to pay for the ${name} plan:`, Markup.inlineKeyboard([
+    [Markup.button.url('Go to payment', url)],
   ]));
 });
 
-// Запуск бота
+// Start bot
 bot.launch();
 

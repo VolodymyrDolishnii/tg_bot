@@ -7,9 +7,14 @@ async function connect() {
   return client.db("payment_bot");
 }
 
-async function saveOrder(orderId, userId) {
+async function saveOrder(orderId, userId, extra = {}) {
   const db = await connect();
-  await db.collection("orders").insertOne({ orderId, userId });
+  await db.collection("orders").insertOne({
+    orderId,
+    userId,
+    ...extra,
+    createdAt: new Date(),
+  });
 }
 
 async function getUserId(orderId) {
