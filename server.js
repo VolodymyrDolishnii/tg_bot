@@ -9,6 +9,8 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+const ADMINS = [963613663];
+
 // --- Telegram bot logic ---
 bot.start((ctx) => {
   ctx.reply(
@@ -36,6 +38,7 @@ bot.action(/^pay_/, async (ctx) => {
     first_name: ctx.from.first_name,
     last_name: ctx.from.last_name,
     username: ctx.from.username,
+    invoice_url: url,
   });
 
   await ctx.reply(
@@ -43,6 +46,34 @@ bot.action(/^pay_/, async (ctx) => {
     Markup.inlineKeyboard([[Markup.button.url("Go to payment", url)]])
   );
 });
+
+// Command /reply <userId> <text message>
+bot.command("reply", async (ctx) => {
+  const senderId = ctx.from.id;
+
+  // Check if the sender is an admin
+  if (!ADMINS.includes(senderId)) {
+    return ctx.reply('❌ You do not have access to this command.');
+  }
+
+  const args = ctx.message.text.split(' ').slice(1);
+  const userId = args[0];
+  const message = args.slice(1).join(' ');
+
+  // Check if the arguments are valid
+  if (!userId || !message) {
+    return ctx.reply('❗ Format: /reply <userId> <message>');
+  }
+
+  try {
+    await ctx.telegram.sendMessage(userId, message);
+    ctx.reply('✅ Message sent.');
+  } catch (error) {
+    console.error('Send error:', error);
+    ctx.reply(`❌ Error sending message: ${error.description || error.message}`);
+  }
+});
+
 
 // --- Webhook for CryptoCloud ---
 app.post("/webhook", async (req, res) => {
