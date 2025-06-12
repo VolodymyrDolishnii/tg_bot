@@ -2,7 +2,7 @@ const express = require("express");
 require("dotenv").config();
 const { Telegraf, Markup } = require("telegraf");
 const { createInvoice } = require("./payment");
-const { saveOrder, getUserId } = require("./db");
+const { saveOrder, getUserId, updateOrder } = require("./db");
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 const app = express();
