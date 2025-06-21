@@ -17,7 +17,7 @@ bot.start((ctx) => {
     "Choose a plan:",
     Markup.inlineKeyboard([
       // [Markup.button.callback("Starter ($5)", "pay_starter")],
-      [Markup.button.callback("Base ($10)", "pay_base")],
+      [Markup.button.callback("Base ($0.5)", "pay_base")],
       // [Markup.button.callback("Full Access ($25)", "pay_full")],
     ])
   );
@@ -27,9 +27,9 @@ bot.start((ctx) => {
 bot.action(/^pay_/, async (ctx) => {
   const userId = ctx.from.id;
   const mapping = {
-    pay_starter: { name: "Starter", price: 5 },
-    pay_base: { name: "Base", price: 10 },
-    pay_full: { name: "Full Access", price: 25 },
+    // pay_starter: { name: "Starter", price: 5 },
+    pay_base: { name: "Base", price: 0.5 },
+    // pay_full: { name: "Full Access", price: 25 },
   };
 
   const { name, price } = mapping[ctx.match.input];
