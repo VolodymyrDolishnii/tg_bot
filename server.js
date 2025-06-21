@@ -9,18 +9,19 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-const ADMINS = [963613663];
+const ADMINS = [963613663, 7035190268];
 
 // --- Telegram bot logic ---
 bot.start((ctx) => {
   ctx.reply(
     "Choose a plan:",
     Markup.inlineKeyboard([
-      [Markup.button.callback("Starter ($5)", "pay_starter")],
+      // [Markup.button.callback("Starter ($5)", "pay_starter")],
       [Markup.button.callback("Base ($10)", "pay_base")],
-      [Markup.button.callback("Full Access ($25)", "pay_full")],
+      // [Markup.button.callback("Full Access ($25)", "pay_full")],
     ])
   );
+  ctx.reply("Currently only base plan is available");
 });
 
 bot.action(/^pay_/, async (ctx) => {
