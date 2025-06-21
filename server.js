@@ -108,6 +108,7 @@ const URL =
   `https://${process.env.RENDER_SERVICE_NAME}.onrender.com`;
 bot.telegram.setWebhook(`${URL}/bot${process.env.BOT_TOKEN}`);
 app.use(bot.webhookCallback(`/bot${process.env.BOT_TOKEN}`));
+console.log('URL', URL);
 
 // --- Start server ---
 const PORT = process.env.PORT || 3000;
